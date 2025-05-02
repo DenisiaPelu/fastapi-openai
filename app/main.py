@@ -14,7 +14,7 @@ class Prompt(BaseModel):
 def generate(data: Prompt):
     response = openai.ChatCompletion.create(
         model="gpt-4o-mini",
-        messages=[{"role": "user", "content": data.prompt}]
+        messages=[{"role": "user", "content": data.prompt}],
         max_tokens=150
     )
     return {"response": response.choices[0].message["content"]}
