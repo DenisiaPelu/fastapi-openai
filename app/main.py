@@ -13,7 +13,7 @@ class Prompt(BaseModel):
 @app.post("/generate/")
 def generate(data: Prompt):
     response = openai.ChatCompletion.create(
-        model="gpt-3.5-turbo",
+        model="gpt-4o-mini",
         messages=[{"role": "user", "content": data.prompt}]
         max_tokens=150
     )
