@@ -1,4 +1,4 @@
-from fastapi import FastAPI
+from fastapi import FastAPI, HTTPException
 from pydantic import BaseModel
 import openai
 import os
@@ -12,9 +12,13 @@ class Prompt(BaseModel):
 
 @app.post("/generate/")
 def generate(data: Prompt):
-    response = openai.ChatCompletion.create(
-        model="gpt-4o-mini",
-        messages=[{"role": "user", "content": data.prompt}],
-        max_tokens=150
-    )
-    return {"response": response.choices[0].message["content"]}
+    try:
+        response = openai.ChatCompletion.create(
+            model="gpt-3.5-turbo",  # modelo accesible
+            messages=[{"role": "user", "content": data.prompt}],
+            max_tokens=150
+        )
+        return {"response": response.choices[0].message["content"]}
+    except Exception as e:
+        print(f"❌ Error OpenAI: {e}")  # Esto aparecerá en los logs de Render
+        raise HTTPException(status_code=400, detail=str(e))
