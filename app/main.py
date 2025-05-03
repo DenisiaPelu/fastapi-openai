@@ -5,6 +5,8 @@ import os
 
 openai.api_key = os.getenv("OPENAI_API_KEY")
 
+print(f"🔑 OPENAI_API_KEY empieza con: {openai.api_key[:5]}...")
+
 app = FastAPI()
 
 class Prompt(BaseModel):
