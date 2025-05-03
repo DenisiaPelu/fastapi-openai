@@ -1,13 +1,19 @@
 from fastapi import FastAPI, HTTPException
 from pydantic import BaseModel
-import openai
 from openai import OpenAI
 import os
 
-openai.api_key = os.getenv("OPENAI_API_KEY")
+# ✅ Cliente de OpenAI usando variable de entorno automáticamente
+client = OpenAI()
 
-client = OpenAI()  # Usa la clave desde la variable de entorno OPENAI_API_KEY automáticamente
+# ✅ App de FastAPI
+app = FastAPI()
 
+# ✅ Modelo de entrada
+class Prompt(BaseModel):
+    prompt: str
+
+# ✅ Ruta POST
 @app.post("/generate/")
 def generate(data: Prompt):
     print(f"📥 Recibido prompt: {data.prompt}")
@@ -21,3 +27,4 @@ def generate(data: Prompt):
     except Exception as e:
         print(f"❌ Error OpenAI: {e}")
         raise HTTPException(status_code=400, detail=str(e))
+
