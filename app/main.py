@@ -15,6 +15,7 @@ class Prompt(BaseModel):
 @app.post("/generate/")
 def generate(data: Prompt):
     try:
+        print(f"📥 Recibido prompt: {data.prompt}") 
         response = openai.ChatCompletion.create(
             model="gpt-3.5-turbo",  # modelo accesible
             messages=[{"role": "user", "content": data.prompt}],
