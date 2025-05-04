@@ -14,7 +14,7 @@ class Prompt(BaseModel):
     prompt: str
 
 # ✅ Ruta POST
-@app.get("/generate")
+@app.post("/generate")
 def generate(data: Prompt):
     print(f"📥 Recibido prompt: {data.prompt}")
     try:
