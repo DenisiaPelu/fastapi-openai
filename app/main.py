@@ -159,11 +159,9 @@ from pydantic import BaseModel
 import openai
 import os
 app = FastAPI()
-# Asegúrate de tener tu clave de API de OpenAI configurada como variable de entorno
 openai.api_key = os.environ.get("OPENAI_API_KEY")
 if not openai.api_key:
     raise ValueError("La variable de entorno OPENAI_API_KEY no está configurada.")
-# Tu diccionario de base de datos
 mi_base_de_datos = {
     "producto_A": {
         "descripcion": "Un producto innovador con características avanzadas.",
@@ -180,21 +178,15 @@ mi_base_de_datos = {
     }
 }
 def generar_respuesta_con_base_de_datos(pregunta_usuario, base_de_datos):
-    """
-    Consulta la base de datos y genera una respuesta usando OpenAI.
-    Args:
-        pregunta_usuario (str): La pregunta del usuario.
-        base_de_datos (dict): El diccionario con la información.
-    Returns:
-        str: La respuesta generada por OpenAI.
-    """
     contexto = ""
     for clave, datos in base_de_datos.items():
         contexto += f"{clave}: {datos}\n"
-    prompt = f"""Basándote en la siguiente información:
+    print(f"Contexto enviado a OpenAI:\n{contexto}")
+    prompt = f"""Información disponible:
     {contexto}
-    Responde a la siguiente pregunta del usuario de la manera más útil y concisa posible:
+    Según la información proporcionada, responde a la siguiente pregunta:
     {pregunta_usuario}
+    Si la respuesta no se encuentra explícitamente en la información, indica que no está disponible.
     """
     try:
         respuesta = openai.Completion.create(
