@@ -190,7 +190,7 @@ def generar_respuesta_con_base_de_datos(pregunta_usuario, base_de_datos):
     """
     try:
         respuesta = openai.Completion.create(
-            model="gpt-3.5-turbo-instruct",
+            model="gpt-3.5-turbo",
             prompt=prompt,
             max_tokens=150,
             n=1,
