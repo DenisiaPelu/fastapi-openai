@@ -154,9 +154,3 @@ def generate(data: Prompt):
     except Exception as e:
         print(f"❌ Error OpenAI: {e}")
         raise HTTPException(status_code=400, detail=str(e))
-
-
-
-
-
-
