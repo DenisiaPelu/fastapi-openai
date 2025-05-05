@@ -284,7 +284,7 @@ def generate(data: Prompt):
 
     try:
         response = client.chat.completions.create(
-            model="gpt-o4-min",
+            model="gpt-4o-turbo",
             messages=[
                 {"role": "system", "content": (
                     "Eres un asistente amable, natural y cercano, que recomienda actividades para padres con niños menores de 14 años. "
@@ -305,6 +305,6 @@ def generate(data: Prompt):
         raise HTTPException(status_code=400, detail=str(e))
 
 
-{
-    "prompt": "Que me recomiendas hacer para ir  en madrid con mi hijo de 3 años"
-}
+# {
+#     "prompt": "Que me recomiendas hacer para ir  en madrid con mi hijo de 3 años"
+# }
