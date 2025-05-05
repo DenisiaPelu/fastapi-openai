@@ -237,7 +237,7 @@ def generate(data: Prompt):
     actividades = pd.DataFrame()
     clima = None
 
-    if ciudad and edad and fecha:
+    if (ciudad and edad)or(ciudad and edad and fecha):
         try:
             actividades = df[
                 (df["edad_min"] <= edad) &
@@ -303,3 +303,8 @@ def generate(data: Prompt):
     except Exception as e:
         print(f"❌ Error OpenAI: {e}")
         raise HTTPException(status_code=400, detail=str(e))
+
+
+# {
+#     "prompt": "Que me recomiendas hacer para ir  en madrid con mi hijo de 6 años"
+# }
