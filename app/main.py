@@ -90,7 +90,10 @@ async def generate(data: Prompt):
         if preferidas.empty:
             preferidas = actividades
 
-        lista_actividades = "\n".join(f"- {a}" for a in preferidas["name"].tolist())
+        lista_actividades = "\n".join(
+            f"- {row['name']} 👉 {row['url'] if pd.notna(row['url']) else 'sin enlace'}"
+            for _, row in preferidas.iterrows())
+
 
         respuesta = (
             f"¡Hola! 😊 He encontrado estas ideas para el {fecha} en {ciudad.title()}, "
@@ -139,6 +142,6 @@ async def generate(data: Prompt):
         print(f"❌ Error OpenAI: {e}")
         raise HTTPException(status_code=400, detail=str(e))
 
-# {
-#     "prompt": "me llamo Marta y quiero ir mañana a madrid con mi hijo de 6 años , que me recomiendas? "
-# }
+{
+    "prompt": "me llamo Marta y quiero ir el sabado a madrid con mi hijo de 6 años creo que mañana llueve, que me recomiendas? "
+}
