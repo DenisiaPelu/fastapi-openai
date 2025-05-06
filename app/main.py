@@ -6,6 +6,7 @@ import dateparser
 import re
 from datetime import datetime
 import uuid
+import os
 
 app = FastAPI()
 client = AsyncOpenAI()
@@ -23,7 +24,11 @@ chat_history = {}
 # ]
 # df = pd.DataFrame(data)
 
-df = pd.read_csv(r"C:\Users\denis\Desktop\app_Chat\fastapi-openai\app\complete_db_05_06_2025.csv")
+
+# Ruta relativa desde la raíz del proyecto
+csv_path = os.path.join(os.path.dirname(__file__), "complete_db_05_06_2025.csv")
+
+df = pd.read_csv(csv_path)
 
 # ✅ Estructura de datos de entrada
 class Prompt(BaseModel):
