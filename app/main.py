@@ -14,14 +14,16 @@ client = AsyncOpenAI()
 chat_history = {}
 
 # ✅ Base de datos de actividades
-data = [
-    {"actividad": "Títeres en el parque", "edad_min": 3, "edad_max": 7, "ciudad": "madrid", "fecha": "2025-05-06", "interior": False},
-    {"actividad": "Museo de Ciencia", "edad_min": 5, "edad_max": 12, "ciudad": "madrid", "fecha": "2025-05-06", "interior": True},
-    {"actividad": "Cuentacuentos", "edad_min": 4, "edad_max": 10, "ciudad": "madrid", "fecha": "2025-05-07", "interior": True},
-    {"actividad": "Parque aventuras", "edad_min": 6, "edad_max": 13, "ciudad": "madrid", "fecha": "2025-05-06", "interior": False},
-    {"actividad": "Taller arte infantil", "edad_min": 5, "edad_max": 9, "ciudad": "madrid", "fecha": "2025-05-08", "interior": True},
-]
-df = pd.DataFrame(data)
+# data = [
+#     {"actividad": "Títeres en el parque", "edad_min": 3, "edad_max": 7, "ciudad": "madrid", "fecha": "2025-05-06", "interior": False},
+#     {"actividad": "Museo de Ciencia", "edad_min": 5, "edad_max": 12, "ciudad": "madrid", "fecha": "2025-05-06", "interior": True},
+#     {"actividad": "Cuentacuentos", "edad_min": 4, "edad_max": 10, "ciudad": "madrid", "fecha": "2025-05-07", "interior": True},
+#     {"actividad": "Parque aventuras", "edad_min": 6, "edad_max": 13, "ciudad": "madrid", "fecha": "2025-05-06", "interior": False},
+#     {"actividad": "Taller arte infantil", "edad_min": 5, "edad_max": 9, "ciudad": "madrid", "fecha": "2025-05-08", "interior": True},
+# ]
+# df = pd.DataFrame(data)
+
+df = pd.read_csv(r"C:\Users\denis\Desktop\app_Chat\fastapi-openai\app\complete_db_05_06_2025.csv")
 
 # ✅ Estructura de datos de entrada
 class Prompt(BaseModel):
