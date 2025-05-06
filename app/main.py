@@ -8,6 +8,8 @@ from datetime import datetime
 import uuid
 import os
 
+
+
 app = FastAPI()
 client = AsyncOpenAI()
 
@@ -40,10 +42,18 @@ def extraer_ciudad(texto):
     return None
 
 def extraer_fecha(texto):
-    fecha = dateparser.parse(texto, settings={"PREFER_DATES_FROM": "future"})
+    today = datetime.now()
+    fecha = dateparser.parse(
+        texto,
+        settings={
+            "PREFER_DATES_FROM": "future",
+            "RELATIVE_BASE": today
+        }
+    )
     if fecha:
         return fecha.date().isoformat()
     return None
+
 
 def obtener_clima(fecha, ciudad):
     # Simulación de clima simple
