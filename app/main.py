@@ -172,7 +172,7 @@ df = pd.read_csv(csv_path)
 # ✅ Estructura de datos de entrada
 class Prompt(BaseModel):
     prompt: str
-    session_id: str = None  # opcional
+    session_id: str = None  # opcional; se genera si no se pasa
 
 # ✅ Funciones auxiliares
 def extraer_edad(texto):
@@ -211,6 +211,7 @@ async def generate(data: Prompt):
     fecha = extraer_fecha(prompt)
 
     actividades = pd.DataFrame()
+    clima = None
 
     if (ciudad and edad) or (ciudad and edad and fecha):
         try:
@@ -220,16 +221,22 @@ async def generate(data: Prompt):
                 (df["city"] == ciudad) &
                 (df["start_date"] == fecha)
             ]
+            clima = obtener_clima(fecha, ciudad)
         except Exception as e:
             print("❌ Error filtrando actividades:", e)
 
     # ✅ Si hay actividades disponibles, las recomendamos directamente
     if not actividades.empty:
-        lista_actividades = "\n".join(f"- {a}" for a in actividades["name"].tolist())
+        preferidas = actividades[actividades["interior"] == (clima == "nublado")]
+        if preferidas.empty:
+            preferidas = actividades
+
+        lista_actividades = "\n".join(f"- {a}" for a in preferidas["name"].tolist())
 
         respuesta = (
             f"¡Hola! 😊 He encontrado estas ideas para el {fecha} en {ciudad.title()}, "
-            f"ideales para peques de {edad} años:\n\n"
+            f"ideales para peques de {edad} años. Como se espera un día {clima}, "
+            f"estas actividades {'en interior' if clima == 'nublado' else 'al aire libre'} pueden ser perfectas:\n\n"
             f"{lista_actividades}.\n\n"
             f"¿Te gustaría que te recomiende otras opciones o más detalles?"
         )
@@ -245,9 +252,9 @@ async def generate(data: Prompt):
     chat_history[session_id].append({"role": "user", "content": data.prompt})
     history_limit = chat_history[session_id][-10:]
 
-    # ➕ Crear resumen de actividades (sin campo interior)
+    # ➕ Crear resumen de las actividades disponibles
     resumen_actividades = "\n".join(
-        f"- {row['name']} (edades {row['min_age']}-{row['max_age']}, en {row['city']}, el {row['start_date']})"
+        f"- {row['name']} (edades {row['min_age']}-{row['max_age']}, en {row['city']}, el {row['start_date']}, {'interior' if row['interior'] else 'exterior'})"
         for _, row in df.iterrows()
     )
 
@@ -272,3 +279,4 @@ async def generate(data: Prompt):
     except Exception as e:
         print(f"❌ Error OpenAI: {e}")
         raise HTTPException(status_code=400, detail=str(e))
+
