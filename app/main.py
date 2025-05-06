@@ -142,6 +142,6 @@ async def generate(data: Prompt):
         print(f"❌ Error OpenAI: {e}")
         raise HTTPException(status_code=400, detail=str(e))
 
-{
-    "prompt": "me llamo Marta y quiero ir el sabado a madrid con mi hijo de 6 años creo que mañana llueve, que me recomiendas? "
-}
+# {
+#     "prompt": "me llamo Marta y quiero ir el sabado a madrid con mi hijo de 6 años creo que mañana llueve, que me recomiendas? "
+# }
