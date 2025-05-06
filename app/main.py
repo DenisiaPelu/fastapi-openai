@@ -114,9 +114,10 @@ async def generate(data: Prompt):
     chat_history[session_id].append({"role": "user", "content": data.prompt})
     history_limit = chat_history[session_id][-10:]
 
-    # ➕ Crear resumen de las actividades disponibles
+    # ➕ Crear resumen de las actividades disponibles con URL incluida
     resumen_actividades = "\n".join(
-        f"- {row['name']} (edades {row['min_age']}-{row['max_age']}, en {row['city']}, el {row['start_date']}, {'interior' if row['interior'] else 'exterior'})"
+        f"- {row['name']} (edades {row['min_age']}-{row['max_age']}, en {row['city']}, el {row['start_date']}, "
+        f"{'interior' if row['interior'] else 'exterior'}) → Más info: {row['url']}"
         for _, row in df.iterrows()
     )
 
